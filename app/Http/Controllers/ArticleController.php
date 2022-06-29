@@ -48,4 +48,14 @@ class ArticleController extends Controller
 
         return abort(404);
     }
+
+    public function edit()
+    {
+
+    }
+
+    public function destroy()
+    {
+
+    }
 }
