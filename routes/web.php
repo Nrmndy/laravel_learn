@@ -8,15 +8,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [ArticleController::class, 'index']);
 
 Route::get('/about', [StaticPageController::class, 'about']);
-
 Route::get('/contacts', [StaticPageController::class, 'contacts']);
 
-Route::get('/articles/create', [ArticleController::class, 'create']);
+//Route::resource('/articles/', 'ArticleController');
 
+Route::get('/articles/create', [ArticleController::class, 'create']);
 Route::get('/articles/{slug}', [ArticleController::class, 'show']);
+Route::get('/articles/{slug}/edit', [ArticleController::class, 'edit']);
+Route::post('/articles', [ArticleController::class, 'store']);
+Route::patch('/articles/{slug}', [ArticleController::class, 'update']);
+Route::delete('/articles/{slug}', [ArticleController::class, 'destroy']);
 
 Route::get('/admin/feedback', [FeedbackController::class, 'index']);
-
-Route::post('/articles', [ArticleController::class, 'store']);
-
 Route::post('/feedback', [FeedbackController::class, 'store']);

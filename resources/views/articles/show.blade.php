@@ -3,7 +3,12 @@
 
     <div class="blog-post border border-1 rounded-2 bg-light px-2 mb-3">
         <h2 class="blog-post-title">{{ $article->title }}</h2>
-        <p class="blog-post-meta">{{ $article->created_at->toFormattedDateString() }} </p>
+        <p class="blog-post-meta">
+            {{ $article->created_at->toFormattedDateString() }}
+            <span>
+                <a href="/articles/{{$article->slug}}/edit/">(Изменить)</a>
+            </span>
+        </p>
         <p>{{ $article->body }}</p>
     </div>
 
@@ -29,6 +34,7 @@
                 <label for="inputFeedbackMessage" class="form-label">Что хотите сообщить?</label>
                 <input type="text" class="form-control" id="inputArticleDesc" name="message">
             </div>
+            <input type="hidden" name="slug" value="{{ $slug }}">
             <button type="submit" class="btn btn-primary">Отправить</button>
         </form>
     </div>
