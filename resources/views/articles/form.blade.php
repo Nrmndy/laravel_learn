@@ -55,3 +55,13 @@
     </div>
     <button type="submit" class="btn btn-primary">Создать статью</button>
 </form>
+@if($article)
+    <div class="mt-2">
+        <form method="post" action="/articles/{{ $article->slug }}">
+            @csrf
+            @method('DELETE')
+            <input type="hidden" name="slug" value="{{ $article->slug }}">
+            <button type="submit" class="btn btn-primary">Удалить статью</button>
+        </form>
+    </div>
+@endif
