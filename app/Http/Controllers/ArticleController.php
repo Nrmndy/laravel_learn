@@ -62,5 +62,7 @@ class ArticleController extends Controller
     public function destroy($slug)
     {
         Article::where('slug', $slug)->first()->delete();
+
+        return redirect('/');
     }
 }
