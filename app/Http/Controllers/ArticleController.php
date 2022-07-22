@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FormRequest;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -20,20 +21,8 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'title' => 'required|string|max:100',
-            'desc'  => 'required|string|max:255',
-            'body'  => 'required|string',
-            'published' => 'accepted',
-        ]);
-
-        Article::create([
-            'title' => request('title'),
-            'desc' => request('desc'),
-            'body' => request('body'),
-            'slug' => Str::slug(request('title')),
-            'published' => request('published') === 'on' ? 1 : 0,
-        ]);
+        $validatedData = FormRequest::validate($request);
+        Article::create($validatedData);
 
         return redirect('/');
     }
@@ -43,9 +32,35 @@ class ArticleController extends Controller
         $article = Article::where('slug', $slug)->first();
 
         if ($article) {
-            return view('articles.show', ['article' => $article]);
+            return view('articles.show', compact('article', 'slug'));
         }
 
         return abort(404);
+    }
+
+    public function update(Request $request)
+    {
+        $validatedData = FormRequest::validate($request);
+        $validatedData['slug'] = Str::slug($validatedData['title']);
+
+        Article::where('slug', $request->get('slug_old'))->update($validatedData);
+
+        return redirect('/articles/' . $validatedData['slug']);
+    }
+
+    public function edit($slug)
+    {
+        $article = Article::where('slug', $slug)->first();
+
+        if ($article) {
+            return view('articles.edit', compact('article', 'slug'));
+        }
+
+        return redirect('/');
+    }
+
+    public function destroy($slug)
+    {
+        Article::where('slug', $slug)->first()->delete();
     }
 }
