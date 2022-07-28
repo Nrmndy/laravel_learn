@@ -13,7 +13,7 @@ class FormRequest
     /**
      * @var array|string[]
      */
-    private static array $rule = [
+    private static $rule = [
         'title' => 'required|string|min:5|max:100',
         'desc' => 'required|string|max:255',
         'body' => 'required|string',

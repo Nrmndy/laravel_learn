@@ -24,7 +24,6 @@ class ArticleController extends Controller
     public function store(Request $request, TagsSynchronizer $tagsSynchronizer)
     {
         $validatedData = FormRequest::validate($request);
-        unset($validatedData['tags']);
         $article = Article::create($validatedData);
 
         $requestedTags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
@@ -50,7 +49,7 @@ class ArticleController extends Controller
         $validatedData['slug'] = Str::slug($validatedData['title']);
 
         /** @var Model $article */
-        $article = Article::where('slug', $request->get('slug_old'))->first();
+        $article = Article::whereSlug($request->get('slug_old'));
         $article->update($validatedData);
 
         $requestedTags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
