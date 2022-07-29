@@ -9,5 +9,15 @@ class Article extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = ['title', 'desc', 'body', 'slug', 'published'];
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
+    public static function whereSlug($slug)
+    {
+        return self::where('slug', $slug)->first();
+    }
 }
