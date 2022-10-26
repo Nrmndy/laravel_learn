@@ -9,7 +9,7 @@ class Article extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'desc', 'body', 'slug', 'published'];
+    protected $fillable = ['title', 'author_id', 'desc', 'body', 'slug', 'published'];
 
     public function tags()
     {
@@ -19,5 +19,10 @@ class Article extends Model
     public static function whereSlug($slug)
     {
         return self::where('slug', $slug)->first();
+    }
+
+    public function getAuthorId()
+    {
+        return $this->author_id;
     }
 }
